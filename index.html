@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRU Digital Market | ตลาดซื้อขายออนไลน์นักศึกษา</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="authView" class="auth-overlay">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="logo-circle">🌙</div>
+                <h2>CRU <span>Digital Market</span></h2>
+                <p id="authSubtitle">เข้าสู่ระบบเพื่อดำเนินการต่อ</p>
+            </div>
+            <div class="auth-form">
+                <div class="input-group">
+                    <label>อีเมลนักศึกษา</label>
+                    <input type="email" id="email" placeholder="example@chandra.ac.th">
+                </div>
+                <div class="input-group">
+                    <label>รหัสผ่าน</label>
+                    <input type="password" id="password" placeholder="••••••••">
+                </div>
+                <button onclick="handleAuth()" id="btnAuth" class="btn-primary">เข้าสู่ระบบ</button>
+                <p class="auth-toggle">ยังไม่มีบัญชี? <a href="#" onclick="toggleAuthMode()" id="btnToggle">สมัครสมาชิก</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="appView" class="app-container" style="display: none;">
+        <nav class="navbar">
+            <div class="nav-content">
+                <div class="brand">CRU <span>Market</span></div>
+                <div class="nav-actions">
+                    <button class="btn-post" onclick="openModal()">+ ลงประกาศขายสินค้า</button>
+                    <button class="btn-icon-logout" onclick="logout()">ออกจากระบบ</button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="layout-body">
+            <aside class="sidebar">
+                <h3>คณะ / สาขาวิชา</h3>
+                <ul id="categoryList">
+                    <li class="active" onclick="filterCategory('ทั้งหมด')">ทั้งหมด</li>
+                    <li onclick="filterCategory('วิทยาศาสตร์')">คณะวิทยาศาสตร์</li>
+                    <li onclick="filterCategory('วิทยาการจัดการ')">คณะวิทยาการจัดการ</li>
+                    <li onclick="filterCategory('มนุษยศาสตร์')">คณะมนุษยศาสตร์ฯ</li>
+                    <li onclick="filterCategory('ศึกษาศาสตร์')">คณะศึกษาศาสตร์</li>
+                    <li onclick="filterCategory('พยาบาลศาสตร์')">คณะพยาบาลศาสตร์</li>
+                </ul>
+            </aside>
+
+            <main class="product-feed">
+                <div id="productGrid" class="product-grid">
+                    </div>
+            </main>
+        </div>
+    </div>
+
+    <div id="postModal" class="modal">
+        <div class="modal-content">
+            <h3>📢 ลงประกาศใหม่</h3>
+            <div class="upload-zone" onclick="document.getElementById('pImage').click()">
+                <input type="file" id="pImage" accept="image/*" hidden onchange="previewImg(event)">
+                <div id="uploadPlaceholder">
+                    <span>📸</span>
+                    <p>คลิกเพื่อเพิ่มรูปภาพสินค้า</p>
+                </div>
+                <img id="imgPre" src="" style="display:none;">
+            </div>
+            <input type="text" id="pTitle" placeholder="ชื่อสินค้า">
+            <select id="pCat">
+                <option value="ทั่วไป">เลือกคณะ/หมวดหมู่</option>
+                <option value="วิทยาศาสตร์">วิทยาศาสตร์</option>
+                <option value="วิทยาการจัดการ">วิทยาการจัดการ</option>
+                <option value="มนุษยศาสตร์">มนุษยศาสตร์</option>
+                <option value="ศึกษาศาสตร์">ศึกษาศาสตร์</option>
+            </select>
+            <input type="number" id="pPrice" placeholder="ราคา (บาท)">
+            <textarea id="pDesc" placeholder="รายละเอียดสินค้าและจุดนัดรับ..."></textarea>
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="closeModal()">ยกเลิก</button>
+                <button class="btn-primary" id="btnSave" onclick="savePost()">ยืนยันประกาศ</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="chatWindow" class="chat-popup" style="display: none;">
+        <div class="chat-header">
+            <span id="chatTitle">ห้องแชท</span>
+            <button onclick="closeChat()">×</button>
+        </div>
+        <div id="chatMsgs" class="chat-body"></div>
+        <div class="chat-footer">
+            <input type="text" id="msgInput" placeholder="พิมพ์ข้อความ...">
+            <button onclick="sendMsg()">ส่ง</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-storage-compat.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
